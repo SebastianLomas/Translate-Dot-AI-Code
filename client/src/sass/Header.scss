@@ -1,0 +1,25 @@
+.header {
+    @include min-query($min-width-query) {
+        min-width: 100%;
+        min-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & h1 {
+            width: auto;
+            height: auto;
+            font-family: $logo-font;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: $white-color;
+
+            & span {
+                text-transform: lowercase;
+            }
+        }
+    }
+
+    @include min-query($min-width-pc) {
+        grid-column-start: span 2;
+    }
+}

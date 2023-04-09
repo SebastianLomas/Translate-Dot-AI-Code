@@ -1,0 +1,18 @@
+.App {
+    /* From small mobile device: 320px */
+    @include min-query($min-width-query) {
+        min-width: 100%;
+        min-height: 100%;
+        display: grid;
+    }
+    /* Max device: Tablet */
+    @include max-query($max-width-mobile) {
+        grid-template-columns: 100%;
+        grid-template-rows: $header-height calc(100vh - $header-height) 100vh;
+    }
+
+    @include min-query($min-width-pc) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: $header-height 1fr;
+    }
+}
