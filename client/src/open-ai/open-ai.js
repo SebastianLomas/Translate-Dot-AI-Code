@@ -30,6 +30,16 @@ const validateAndSanitize = function(dirty) {
     }
 }
 
+const getBodyRequest = function(toLanguage, userQuestion, userContext = "") {
+    switch(toLanguage) {
+        case "english":
+            return `Translate "${userQuestion}" into "${toLanguage}". I took it from the following context: "${userContext}".`
+        
+        case "spanish":
+            return `Traducir "${userQuestion}" al "${toLanguage}". Lo tome del siguiente contexto: "${userContext}"`
+    }
+}
+
 const createRequest = function(originLanguage, translationLanguage, dirtyQuestion, dirtyContext) {
     const fromLanguage = originLanguage
     const toLanguage = translationLanguage
@@ -38,12 +48,13 @@ const createRequest = function(originLanguage, translationLanguage, dirtyQuestio
 
     if(question && context) {
         return {
-            body: `Translate from ${fromLanguage} to ${toLanguage} the following: ${question}. Use the following as the context but don't translate it: ${context}. Give me an explanation of usage.`,
+            body: getBodyRequest(toLanguage, question, context),
+            //body: `Translate from ${fromLanguage} to ${toLanguage}: "${question}". Use this context to give a better translation but do not translate it at least it says so: "${context}".`,
             error: false
         }
     } else if(question && !context) {
         return {
-            body: `Translate from ${fromLanguage} to ${toLanguage} the following: ${question}.`,
+            body: getBodyRequest(toLanguage, question),
             error: false
         }
     } else {
