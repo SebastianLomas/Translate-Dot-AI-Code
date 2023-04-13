@@ -6,7 +6,8 @@ const config = {
     entry: path.resolve(__dirname,'src','index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js'
+        filename: '[name].[contenthash].js',
+        clean: true
     },
     module: {
         rules: [
@@ -20,19 +21,40 @@ const config = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: ['@babel/preset-env'],
+                        cacheCompression: false,
+                        cacheDirectory: true
                     }
                 }
             }
         ]
     },
+    cache: {
+        type: 'filesystem'
+    },
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all"
+                }
+            }
+        }
+    },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'src','index.html')
+            template: path.resolve(__dirname,'src','index.html'),
+            title: "Caching"
         })
     ],
+    experiments: {
+        topLevelAwait: true
+    },
     devServer: {
-        port: 8080,
+        port: 5000,
         open: true
     },
     devtool: 'source-map'

@@ -1,8 +1,8 @@
-const Result = function() {
+const Result = function({resultProps}) {
     return (
         <section className="result">
             <p className="result__text">
-                
+                {resultProps.answer}
             </p>
         </section>
     )
